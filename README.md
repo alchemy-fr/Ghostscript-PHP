@@ -13,6 +13,25 @@ $transcoder->open('document.pdf')
             ->close();
 ```
 
+Silex service provider :
+
+```php
+
+use Silex\Application;
+use Ghostscript\GhostscriptServiceProvider;
+
+$app = new Application();
+$app->register(new GhostscriptServiceProvider(array(
+    'ghostscript.binary' => '/usr/bin/gs'
+)));
+
+$app['ghostscript.pdf-transcoder']->open('document.pdf');
+
+// ...
+
+```
+
+
 
 # License
 
