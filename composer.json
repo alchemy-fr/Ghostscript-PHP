@@ -1,5 +1,5 @@
 {
-    "name": "alchemy/ghostscript-pdf",
+    "name": "alchemy/ghostscript",
     "type": "library",
     "description": "Ghostscript PDF, a library to handle PDF through ghostscript",
     "keywords": ["ghostscript", "pdf"],
