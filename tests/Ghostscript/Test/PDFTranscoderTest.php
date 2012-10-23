@@ -8,9 +8,6 @@ class PDFTranscoderTest extends \PHPUnit_Framework_TestCase
 {
     protected $object;
 
-    /**
-     * @covers MediaAlchemyst\Alchemyst::__construct
-     */
     protected function setUp()
     {
         $this->object = PDFTranscoder::load();
