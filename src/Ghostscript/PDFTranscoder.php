@@ -44,7 +44,8 @@ class PDFTranscoder
                 '-dSAFER',
                 sprintf('-dFirstPage=%d', $start),
                 sprintf('-dLastPage=%d', ($start + $quantity - 1)),
-                '-sOutputFile=' . $destination
+                '-sOutputFile=' . $destination,
+                $this->file,
             ));
 
         $process = $builder->getProcess();
