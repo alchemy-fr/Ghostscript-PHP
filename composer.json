@@ -31,5 +31,10 @@
         "psr-0": {
             "Ghostscript": "src"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
     }
 }
