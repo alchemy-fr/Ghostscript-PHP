@@ -12,7 +12,7 @@ class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
         $app = new Application;
         $app->register(new GhostscriptServiceProvider());
 
-        $this->assertInstanceOf('\\Ghostscript\\PDFTranscoder', $app['ghostscript.pdf-transcoder']);
+        $this->assertInstanceOf('\\Ghostscript\\Transcoder', $app['ghostscript.transcoder']);
     }
 }
 

@@ -21,7 +21,7 @@ class GhostscriptServiceProvider implements ServiceProviderInterface
             };
         }
 
-        $app['ghostscript.pdf-transcoder'] = $app->share(function(Application $app) {
+        $app['ghostscript.transcoder'] = $app->share(function(Application $app) {
 
             if ($app['ghostscript.logger']) {
                 $logger = $app['ghostscript.logger'];
@@ -33,7 +33,7 @@ class GhostscriptServiceProvider implements ServiceProviderInterface
             }
 
             if (!$app['ghostscript.binary']) {
-                return PDFTranscoder::load($logger);
+                return Transcoder::load($logger);
             } else {
                 return new PDFTranscoder($app['ghostscript.binary'], $logger);
             }
