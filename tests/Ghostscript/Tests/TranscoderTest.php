@@ -1,6 +1,6 @@
 <?php
 
-namespace Ghostscript\Test;
+namespace Ghostscript\Tests;
 
 use Ghostscript\Transcoder;
 
