@@ -2,54 +2,26 @@
 
 namespace Ghostscript;
 
+use Alchemy\BinaryDriver\AbstractBinary;
+use Psr\Log\LoggerInterface;
 use Ghostscript\Exception\RuntimeException;
-use Monolog\Logger;
-use Monolog\Handler\NullHandler;
-use Symfony\Component\Process\ExecutableFinder;
-use Symfony\Component\Process\ProcessBuilder;
 
-class Transcoder
+class Transcoder extends AbstractBinary
 {
-    private $binary;
-    private $logger;
-    private $file;
-
-    public function __construct($gs_binary, Logger $logger)
+    public function toImage($input, $destination)
     {
-        $this->binary = $gs_binary;
-        $this->logger = $logger;
-    }
+        $process = $this->factory->create(array(
+            '-sDEVICE=jpeg',
+            '-dNOPAUSE',
+            '-dBATCH',
+            '-dSAFER',
+            '-sOutputFile=' . $destination,
+            $input,
+        ));
 
-    public function open($file)
-    {
-        $this->file = $file;
-
-        return $this;
-    }
-
-    public function close()
-    {
-        $this->file = null;
-
-        return $this;
-    }
-
-    public function toImage($destination)
-    {
-        $builder = ProcessBuilder::create(array(
-                $this->binary,
-                '-sDEVICE=jpeg',
-                '-dNOPAUSE',
-                '-dBATCH',
-                '-dSAFER',
-                '-sOutputFile=' . $destination,
-                $this->file,
-            ));
-
-        $process = $builder->getProcess();
         $this->logger->addInfo(sprintf('Ghostscript about to run %s', $process->getCommandLine()));
         $process->run();
-        
+
         if (!$process->isSuccessful() || !file_exists($destination)) {
             throw new RuntimeException('Ghostscript was unable to transcode to Image');
         }
@@ -57,21 +29,19 @@ class Transcoder
         return $this;
     }
 
-    public function toPDF($destination, $pageStart, $pageQuantity)
+    public function toPDF($input, $destination, $pageStart, $pageQuantity)
     {
-        $builder = ProcessBuilder::create(array(
-                $this->binary,
-                '-sDEVICE=pdfwrite',
-                '-dNOPAUSE',
-                '-dBATCH',
-                '-dSAFER',
-                sprintf('-dFirstPage=%d', $pageStart),
-                sprintf('-dLastPage=%d', ($pageStart + $pageQuantity - 1)),
-                '-sOutputFile=' . $destination,
-                $this->file,
-            ));
+        $process = $this->factory->create(array(
+            '-sDEVICE=pdfwrite',
+            '-dNOPAUSE',
+            '-dBATCH',
+            '-dSAFER',
+            sprintf('-dFirstPage=%d', $pageStart),
+            sprintf('-dLastPage=%d', ($pageStart + $pageQuantity - 1)),
+            '-sOutputFile=' . $destination,
+            $input,
+        ));
 
-        $process = $builder->getProcess();
         $this->logger->addInfo(sprintf('Ghostscript about to run %s', $process->getCommandLine()));
         $process->run();
 
@@ -82,18 +52,8 @@ class Transcoder
         return $this;
     }
 
-    public static function load(Logger $logger = null)
+    public static function create(LoggerInterface $logger = null, $configuration = array())
     {
-        if (!$logger) {
-            $logger = new Logger('Ghostscript logger');
-            $logger->pushHandler(new NullHandler());
-        }
-
-        $finder = new ExecutableFinder();
-        if (null === $gs = $finder->find('gs')) {
-            throw new RuntimeException('gs does not seems present on this install');
-        }
-
-        return new static($gs, $logger);
+        return static::load('gs', $logger, $configuration);
     }
 }
