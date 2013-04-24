@@ -2,33 +2,54 @@
 
 [![Build Status](https://secure.travis-ci.org/alchemy-fr/Ghostscript-PHP.png)](http://travis-ci.org/alchemy-fr/Ghostscript-PHP)
 
-example of use :
+# API usage
+
+To instantiate Ghostscript driver, the easiest way is :
 
 ```php
-use Ghostscript\PDFTranscoder;
-
-$transcoder = PDFTranscoder::load();
-$transcoder->open('document.pdf')
-            ->transcode('firstPage.pdf', 1, 1)
-            ->close();
+$transcoder = Ghostscript\Transcoder::create();
 ```
 
-Silex service provider :
+You can customize your driver by passing a `Psr\Log\LoggerInterface` or
+configuration options.
+
+Available options are :
+
+ - timeout : the timeout for the underlying process
 
 ```php
+$transcoder = Ghostscript\Transcoder::create($logger, array('timeout' => 42));
+```
 
-use Silex\Application;
-use Ghostscript\GhostscriptServiceProvider;
+To process a file to PDF format, use the `toPDF` method :
 
-$app = new Application();
-$app->register(new GhostscriptServiceProvider(array(
-    'ghostscript.binary' => '/usr/bin/gs'
-)));
+Third and fourth arguments are respectively the first page and the number of
+page to transcode.
 
-$app['ghostscript.pdf-transcoder']->open('document.pdf');
+```php
+$transcoder->toPDF('document.pdf', 'first-page.pdf', 1, 1);
+```
 
-// ...
+To render a file to Image, use the `toImage` method :
 
+```php
+$transcoder->toPDF('document.pdf', 'output.jpg');
+```
+
+## Silex service provider :
+
+A [Silex](silex.sensiolabs.org) Service Provider is available, all parameters
+are optionals :
+
+```php
+$app = new Silex\Application();
+$app->register(new Ghostscript\GhostscriptServiceProvider(), array(
+    'ghostscript.binary' => '/usr/bin/gs',
+    'ghostscript.logger' => $app->share(function () { return $app['monolog']; }), // use Monolog service provider
+    'ghostscript.timeout' => 42,
+));
+
+$app['ghostscript.pdf-transcoder']->toImage('document.pdf', 'image.jpg');
 ```
 
 
