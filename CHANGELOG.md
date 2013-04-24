@@ -6,6 +6,7 @@ CHANGELOG
   * Use Alchemy\BinaryDriver as driver base.
   * BC Break : remove methods `open` and `close`. Methods `toImage` and `toPDF`
     now take the input file as first argument.
+  * Code cleanup
 
 * 0.2.0 (02-01-2013)
 
