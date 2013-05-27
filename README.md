@@ -33,7 +33,7 @@ $transcoder->toPDF('document.pdf', 'first-page.pdf', 1, 1);
 To render a file to Image, use the `toImage` method :
 
 ```php
-$transcoder->toPDF('document.pdf', 'output.jpg');
+$transcoder->toImage('document.pdf', 'output.jpg');
 ```
 
 ## Silex service provider :
