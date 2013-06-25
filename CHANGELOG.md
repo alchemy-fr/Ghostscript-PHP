@@ -1,7 +1,7 @@
 CHANGELOG
 ---------
 
-* 0.4.0 (xx-xx-2013)
+* 0.4.0 (06-25-2013)
 
   * BC Break : Transcoder::create arguments have been inverted.
   * BC Break : Service provider configuration has been updated.
