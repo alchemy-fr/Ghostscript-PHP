@@ -15,10 +15,14 @@ configuration options.
 
 Available options are :
 
- - timeout : the timeout for the underlying process
+ - `gs.binaries` : the path (or an array of potential paths) to the ghostscript binary.
+ - `timeout` : the timeout for the underlying process.
 
 ```php
-$transcoder = Ghostscript\Transcoder::create($logger, array('timeout' => 42));
+$transcoder = Ghostscript\Transcoder::create(array(
+    'timeout' => 42,
+    'gs.binaries' => '/opt/local/gs/bin/gs',
+), $logger);
 ```
 
 To process a file to PDF format, use the `toPDF` method :
@@ -44,15 +48,17 @@ are optionals :
 ```php
 $app = new Silex\Application();
 $app->register(new Ghostscript\GhostscriptServiceProvider(), array(
-    'ghostscript.binary' => '/usr/bin/gs',
-    'ghostscript.logger' => $app->share(function () { return $app['monolog']; }), // use Monolog service provider
-    'ghostscript.timeout' => 42,
+    'ghostscript.configuration' => array(
+        'gs.binaries' => '/usr/bin/gs',
+        'timeout'     => 42,
+    )
+    'ghostscript.logger' => $app->share(function () {
+        return $app['monolog']; // use Monolog service provider
+    }),
 ));
 
 $app['ghostscript.pdf-transcoder']->toImage('document.pdf', 'image.jpg');
 ```
-
-
 
 # License
 

@@ -20,7 +20,9 @@ class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $app = new Application;
         $app->register(new GhostscriptServiceProvider(), array(
-            'ghostscript.timeout' => 42,
+            'ghostscript.configuration' => array(
+                'timeout' => 42
+            ),
         ));
 
         $this->assertEquals(42, $app['ghostscript.transcoder']->getProcessBuilderfactory()->getTimeout());
@@ -37,7 +39,9 @@ class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $app = new Application;
         $app->register(new GhostscriptServiceProvider(), array(
-            'ghostscript.binary' => $MP4Box,
+            'ghostscript.configuration' => array(
+                'gs.binaries' => $MP4Box
+            ),
         ));
 
         $this->assertEquals($MP4Box, $app['ghostscript.transcoder']->getProcessBuilderfactory()->getBinary());
@@ -52,7 +56,7 @@ class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
             'ghostscript.logger' => $logger,
         ));
 
-        $this->assertEquals($logger, $app['ghostscript.transcoder']->getLogger());
+        $this->assertEquals($logger, $app['ghostscript.transcoder']->getProcessRunner()->getLogger());
     }
 }
 

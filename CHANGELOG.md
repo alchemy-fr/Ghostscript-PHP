@@ -1,6 +1,11 @@
 CHANGELOG
 ---------
 
+* 0.4.0 (xx-xx-2013)
+
+  * BC Break : Transcoder::create arguments have been inverted.
+  * BC Break : Service provider configuration has been updated.
+
 * 0.3.0 (04-24-2013)
 
   * Use Alchemy\BinaryDriver as driver base.
