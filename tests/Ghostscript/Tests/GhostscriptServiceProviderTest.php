@@ -59,4 +59,3 @@ class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($logger, $app['ghostscript.transcoder']->getProcessRunner()->getLogger());
     }
 }
-
