@@ -51,7 +51,7 @@ $app->register(new Ghostscript\GhostscriptServiceProvider(), array(
     'ghostscript.configuration' => array(
         'gs.binaries' => '/usr/bin/gs',
         'timeout'     => 42,
-    )
+    ),
     'ghostscript.logger' => $app->share(function () {
         return $app['monolog']; // use Monolog service provider
     }),
