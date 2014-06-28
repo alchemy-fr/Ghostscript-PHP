@@ -57,7 +57,7 @@ $app->register(new Ghostscript\GhostscriptServiceProvider(), array(
     }),
 ));
 
-$app['ghostscript.pdf-transcoder']->toImage('document.pdf', 'image.jpg');
+$app['ghostscript.transcoder']->toImage('document.pdf', 'image.jpg');
 ```
 
 # License
