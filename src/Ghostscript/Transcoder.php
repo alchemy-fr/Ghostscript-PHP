@@ -22,14 +22,16 @@ class Transcoder extends AbstractBinary
     /**
      * Transcode a PDF to an image.
      *
-     * @param string $input          The path to the input file.
-     * @param string $destinationThe path to the output file.
+     * @param string  $input        The path to the input file.
+     * @param string  $destination  The path to the output file.
+     * @param integer $pageStart    The number of the first page.
+     * @param integer $pageQuantity The number of page to include.
      *
      * @return Transcoder
      *
      * @throws RuntimeException In case of failure
      */
-    public function toImage($input, $destination)
+    public function toImage($input, $destination, $pageStart = 1, $pageQuantity = 1)
     {
         try {
             $this->command(array(
@@ -37,6 +39,8 @@ class Transcoder extends AbstractBinary
                 '-dNOPAUSE',
                 '-dBATCH',
                 '-dSAFER',
+                sprintf('-dFirstPage=%d', $pageStart),
+                sprintf('-dLastPage=%d', ($pageStart + $pageQuantity - 1)),
                 '-sOutputFile=' . $destination,
                 $input,
             ));
