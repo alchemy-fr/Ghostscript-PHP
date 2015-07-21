@@ -43,7 +43,7 @@ $transcoder->toImage('document.pdf', 'output.jpg');
 ## Silex service provider :
 
 A [Silex](silex.sensiolabs.org) Service Provider is available, all parameters
-are optionals :
+are optional :
 
 ```php
 $app = new Silex\Application();
@@ -58,6 +58,26 @@ $app->register(new Ghostscript\GhostscriptServiceProvider(), array(
 ));
 
 $app['ghostscript.pdf-transcoder']->toImage('document.pdf', 'image.jpg');
+```
+
+## Laravel 5 service provider
+
+A [Laravel 5](http://laravel.com/) service provider is available
+
+Publish the package config files:
+
+    php artisan vendor:publish
+
+You will also need to add the service provider and optionally the facade alias to your `app/config/app.php`:
+
+```php
+'providers' => array(
+  'Ghostscript\LaravelGhostscriptServiceProvider'
+)
+
+'aliases' => array(
+  'Ghostscript' => 'Ghostscript\Facades\Ghostscript'
+),
 ```
 
 # License
