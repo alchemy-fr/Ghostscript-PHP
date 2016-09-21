@@ -54,7 +54,7 @@ class Transcoder extends AbstractBinary
     /**
      * Transcode a PDF to another PDF
      *
-     * @param string  $input        The path to the input file.
+     * @param string|array $input   The path to the input file(s).
      * @param string  $destination  The path to the output file.
      * @param integer $pageStart    The number of the first page.
      * @param integer $pageQuantity The number of page to include.
@@ -66,16 +66,20 @@ class Transcoder extends AbstractBinary
     public function toPDF($input, $destination, $pageStart, $pageQuantity)
     {
         try {
-            $this->command(array(
-                '-sDEVICE=pdfwrite',
-                '-dNOPAUSE',
-                '-dBATCH',
-                '-dSAFER',
-                sprintf('-dFirstPage=%d', $pageStart),
-                sprintf('-dLastPage=%d', ($pageStart + $pageQuantity - 1)),
-                '-sOutputFile=' . $destination,
-                $input,
-            ));
+            $this->command(
+                array_merge(
+                    array(
+                        '-sDEVICE=pdfwrite',
+                        '-dNOPAUSE',
+                        '-dBATCH',
+                        '-dSAFER',
+                        sprintf('-dFirstPage=%d', $pageStart),
+                        sprintf('-dLastPage=%d', ($pageStart + $pageQuantity - 1)),
+                        '-sOutputFile=' . $destination,
+                    ),
+                    (is_array($input) ? $input : array($input))
+                )
+            );
         } catch (ExecutionFailureException $e) {
             throw new RuntimeException('Ghostscript was unable to transcode to PDF', $e->getCode(), $e);
         }
