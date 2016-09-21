@@ -1,5 +1,5 @@
 {
-    "name": "alchemy/ghostscript",
+    "name": "sqills/ghostscript",
     "type": "library",
     "description": "Ghostscript PDF, a library to handle PDF through ghostscript",
     "keywords": ["ghostscript", "pdf"],
