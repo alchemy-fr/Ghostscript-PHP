@@ -24,12 +24,13 @@ class Transcoder extends AbstractBinary
      *
      * @param string $input          The path to the input file.
      * @param string $destinationThe path to the output file.
-     *
+     * @param int    $res            resolution of the output file
+     * 
      * @return Transcoder
      *
      * @throws RuntimeException In case of failure
      */
-    public function toImage($input, $destination)
+    public function toImage($input, $destination, $res = 200)
     {
         try {
             $this->command(array(
@@ -37,6 +38,7 @@ class Transcoder extends AbstractBinary
                 '-dNOPAUSE',
                 '-dBATCH',
                 '-dSAFER',
+                '-r'.$res,
                 '-sOutputFile=' . $destination,
                 $input,
             ));
