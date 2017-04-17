@@ -2,7 +2,7 @@
     "name": "alchemy/ghostscript",
     "type": "library",
     "description": "Ghostscript PDF, a library to handle PDF through ghostscript",
-    "keywords": ["ghostscript", "pdf"],
+    "keywords": ["ghostscript", "pdf", "laravel"],
     "license": "MIT",
     "authors": [
         {
