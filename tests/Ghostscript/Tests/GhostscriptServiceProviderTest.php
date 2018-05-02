@@ -5,8 +5,9 @@ namespace Ghostscript\Tests;
 use Ghostscript\GhostscriptServiceProvider;
 use Silex\Application;
 use Symfony\Component\Process\ExecutableFinder;
+use \PHPUnit\Framework\TestCase;
 
-class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
+class GhostscriptServiceProviderTest extends TestCase
 {
     public function testRegister()
     {
@@ -49,7 +50,7 @@ class GhostscriptServiceProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterWithCustomLogger()
     {
-        $logger = $this->getMock('Psr\Log\LoggerInterface');
+        $logger = $this->createMock('Psr\Log\LoggerInterface');
 
         $app = new Application;
         $app->register(new GhostscriptServiceProvider(), array(
