@@ -11,12 +11,13 @@
 
 namespace Ghostscript;
 
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Silex\Application;
 
 class GhostscriptServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['ghostscript.default.configuration'] = array(
             'gs.binaries' => array('gs'),
@@ -25,16 +26,12 @@ class GhostscriptServiceProvider implements ServiceProviderInterface
         $app['ghostscript.configuration'] = array();
         $app['ghostscript.logger'] = null;
 
-        $app['ghostscript.transcoder'] = $app->share(function(Application $app) {
+        $app['ghostscript.transcoder'] = function(Application $app) {
             $app['ghostscript.configuration'] = array_replace(
                 $app['ghostscript.default.configuration'], $app['ghostscript.configuration']
             );
 
             return Transcoder::create($app['ghostscript.configuration'], $app['ghostscript.logger']);
-        });
-    }
-
-    public function boot(Application $app)
-    {
+        };
     }
 }
