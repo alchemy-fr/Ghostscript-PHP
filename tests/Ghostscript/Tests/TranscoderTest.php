@@ -3,8 +3,9 @@
 namespace Ghostscript\Tests;
 
 use Ghostscript\Transcoder;
+use \PHPUnit\Framework\TestCase;
 
-class TranscoderTest extends \PHPUnit_Framework_TestCase
+class TranscoderTest extends TestCase
 {
     /** @var Transcoder */
     protected $object;

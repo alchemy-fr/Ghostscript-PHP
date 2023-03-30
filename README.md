@@ -34,10 +34,10 @@ page to transcode.
 $transcoder->toPDF('document.pdf', 'first-page.pdf', 1, 1);
 ```
 
-To render a file to Image, use the `toImage` method :
+To render a file's first page to Image, use the `toImage` method :
 
 ```php
-$transcoder->toImage('document.pdf', 'output.jpg');
+$transcoder->toImage('document.pdf', 'output.jpg', 1, 1);
 ```
 
 ## Silex service provider :
